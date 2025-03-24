@@ -1,0 +1,25 @@
+@startuml
+
+actor Client
+participant MemberController
+participant MemberService
+participant MemberRepository
+entity MemberEntity
+database Database
+
+activate Client
+
+Client -> MemberController : [GET] /members
+MemberController -> MemberService : getAll(): Member[]
+MemberService -> MemberRepository : findAll(): Member[]
+activate MemberRepository
+MemberRepository -> Database : get all members from DB
+Database -> MemberRepository : return members data
+MemberRepository -> MemberEntity : members data to POJO
+MemberEntity -> MemberRepository : return Member[]
+MemberRepository -> MemberService : return Member[]
+deactivate MemberRepository
+MemberService -> MemberController : return Member[]
+MemberController -> Client : return Member[] as JSON
+
+@enduml

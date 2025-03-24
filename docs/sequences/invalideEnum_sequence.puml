@@ -1,0 +1,17 @@
+@startuml
+
+actor Client
+participant MemberController
+participant MemberEntity
+participant ExceptionHandler
+
+activate Client
+
+Client -> MemberController : [POST] /members { invalid enum value }
+MemberController -> MemberEntity : parse data json to entity
+MemberEntity -> MemberController : throw InvalidMemberTypeEnum
+activate ExceptionHandler
+ExceptionHandler -> MemberController : handle InvalidMemberTypeEnum
+MemberController -> Client : return 400 Bad Request
+
+@enduml

@@ -1,0 +1,25 @@
+@startuml
+
+actor Client
+participant MemberController
+participant MemberService
+participant MemberRepository
+database Database
+participant ExceptionHandler
+
+activate Client
+
+Client -> MemberController : [GET] /members/{id}
+MemberController -> MemberService : getById(id): Member
+MemberService -> MemberRepository : findById(id): Optional<Member>
+activate MemberRepository
+MemberRepository -> Database : search member by id
+Database -> MemberRepository : return null
+MemberRepository -> MemberService : return empty result
+deactivate MemberRepository
+MemberService -> MemberController : throw ResourceIDNotFound
+activate ExceptionHandler
+ExceptionHandler -> MemberController : handle ResourceIDNotFound
+MemberController -> Client : return 404 Not Found
+
+@enduml
