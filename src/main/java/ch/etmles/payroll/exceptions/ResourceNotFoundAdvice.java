@@ -1,4 +1,4 @@
-package ch.etmles.payroll.Controllers;
+package ch.etmles.payroll.exceptions;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -7,12 +7,19 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
 @ControllerAdvice
-public class EmployeeNotFoundAdvice {
+public class ResourceNotFoundAdvice {
 
     @ResponseBody
-    @ExceptionHandler(EmployeeNotFoundException.class)
+    @ExceptionHandler(ResourceIDNotFound.class)
     @ResponseStatus(HttpStatus.NOT_FOUND)
-    String employeeNotFoundHandler(EmployeeNotFoundException ex){
+    String IDNotFound(ResourceIDNotFound ex){
+        return ex.getMessage();
+    }
+
+    @ResponseBody
+    @ExceptionHandler(ResourceDeleteNotFound.class)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    String deleteNotFound(ResourceDeleteNotFound ex){
         return ex.getMessage();
     }
 }
