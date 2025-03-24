@@ -1,0 +1,15 @@
+@startuml
+entity Employee {
+    + id : Long [PK]
+    + name : String
+    + email : String [Unique]
+    + department_id : Long [FK]
+}
+
+entity Department {
+    + id : Long [PK, Unique]
+    + name : String
+}
+
+Employee }o--|| Department : "belongs to"
+@enduml

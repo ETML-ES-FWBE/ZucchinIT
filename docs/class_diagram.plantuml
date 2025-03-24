@@ -1,0 +1,35 @@
+@startuml
+
+skinparam classAttributeIconSize 0
+
+' Classes declaration
+
+package "Controllers"{
+    class EmployeeController(){}
+    class EmployeeNotFoundAdvice()
+    class EmployeeNotFoundException()
+
+    class DepartmentController(){}
+    class DepartmentNotFoundAdvice(){}
+    class DepartmentNotFoundException(){}
+}
+
+package "Entities"{
+    class Employee()
+    class Department()
+}
+
+package "Repositories"{
+    class EmployeeRepository()
+    class DepartmentRepository()
+    class LoadDatabase()
+}
+
+class PayrollApplication
+
+' Relations
+
+
+
+
+@enduml

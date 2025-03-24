@@ -1,0 +1,20 @@
+@startuml
+
+skinparam classAttributeIconSize 0
+
+class Employee {
+    - id : Long
+    - name : String
+    - email : String [Unique]
+    - department : Department
+}
+
+class Department {
+    - id : Long [Unique]
+    - name : String
+    - employees : List<Employee>
+}
+
+Employee "1" --> "1" Department : "belongs to"
+Department "1" --> "*" Employee : "has"
+@enduml
