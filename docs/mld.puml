@@ -1,0 +1,30 @@
+@startuml
+entity Member {
+    + id : Integer [PK, Unique]
+    + firstName : String
+    + lastName : String
+    + email : String [Unique]
+    + type : Enum [Attacker, Midfielder, Defender, GoalKeeper]
+    + flocking : Integer [Unique]
+    + team_id : Integer [FK]
+}
+
+entity MemberRole <<unique { role, team_id }>> {
+    + id : Integer [PK, Unique]
+    + role : Enum [Captain, CornerShooter, PenaltyShooter, FreeKickShooter]
+    + member_id : Integer [FK]
+    + team_id : Integer [FK]
+}
+
+entity Team {
+    + id : Integer [PK, Unique]
+    + name : String
+    + address : String
+    + city : String
+    + zipCode : String
+    + email : String
+}
+
+Member }o--|| Team : "belongs to"
+Member }o--|| MemberRole : "plays"
+@enduml
