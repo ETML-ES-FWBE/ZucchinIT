@@ -33,6 +33,7 @@ package ch.etmles.payroll {
         class "MemberAdvice"
         exception "MemberNotInTeam"
         exception "MemberAlreadyInTeam"
+        exception "InvalidMemberTypeEnum"
 
         "MemberController" --> "MemberService"
         "MemberController" --> "Member"
@@ -42,12 +43,16 @@ package ch.etmles.payroll {
         "MemberService" --> "MemberAlreadyInTeam"
         "MemberAdvice" --> "MemberNotInTeam"
         "MemberAdvice" --> "MemberAlreadyInTeam"
+
+        "MemberAdvice" --> "InvalidMemberTypeEnum"
+        "Member" --> "InvalidMemberTypeEnum"
     }
     "MemberService" --> team.TeamRepository
     "MemberService" --> "Exceptions"
 
     package memberRole {
         class MemberRole {}
+
         interface MemberRoleRepository<extends JARepository<MemberRole, Long>>
         class MemberRoleController {
             +all(): MemberRole[]
@@ -65,6 +70,11 @@ package ch.etmles.payroll {
             +update(Long id, MemberRole memberRole): MemberRole
             +delete(Long id): void
         }
+
+        class "MemberAdvice"
+        exception "InvalidMemberTypeEnum"
+        "MemberAdvice" --> "InvalidMemberTypeEnum"
+        "MemberRole" --> "InvalidMemberTypeEnum"
 
         "MemberRoleController" --> "MemberRoleService"
         "MemberRoleController" --> "MemberRole"
@@ -86,7 +96,7 @@ package ch.etmles.payroll {
         }
         class TeamService {
             -teamRepository: TeamRepository
-            +MemberRoleService(TeamRepository teamRepository)
+            +TeamService(TeamRepository teamRepository)
             +getAll(): Team[]
             +getById(Long id): Team
             +create(Team team): Team
