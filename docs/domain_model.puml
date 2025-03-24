@@ -2,19 +2,52 @@
 
 skinparam classAttributeIconSize 0
 
-class Employee {
+enum MemberType {
+     Attacker
+     Midfielder
+     Defender
+     GoalKeeper
+}
+
+enum PlayerRole {
+    Captain
+    CornerShooter
+    PenaltyShooter
+    FreeKickShooter
+}
+
+class Member {
+    - id : Long
+    - firstName : String
+    - lastName : String
+    - email : String [Unique]
+    - type : MemberType
+    - flocking : Integer
+    - team : Team
+}
+
+class MemberRole {
+    + id : Long
+    + role : PlayerRole
+    + member : Member
+    + team : Team
+}
+
+class Team {
     - id : Long
     - name : String
-    - email : String [Unique]
-    - department : Department
+    - address : String
+    - city : String
+    - zipCode : String
+    - email : String
 }
 
-class Department {
-    - id : Long [Unique]
-    - name : String
-    - employees : List<Employee>
-}
+Member --> MemberType
+MemberRole --> PlayerRole
 
-Employee "1" --> "1" Department : "belongs to"
-Department "1" --> "*" Employee : "has"
+Member "0,1" --> "1" Team : "belongs to"
+Team "0,N" --> "*" Member : "has"
+
+Member "0,N" --> "1" MemberRole : "plays"
+MemberRole "0,N" --> "*" Member : "has"
 @enduml
