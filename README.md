@@ -1,4 +1,4 @@
-s# Exam training
+# Exam training
 
 This repository has been created as a learning tool for getting to grips with spring boot.
 
