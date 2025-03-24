@@ -2,34 +2,114 @@
 
 skinparam classAttributeIconSize 0
 
-' Classes declaration
+package ch.etmles.payroll {
+    class "SpringApplication"
+    class PayrollApplication {
+        +main(String[): void
+    }
+    "PayrollApplication" --> "SpringApplication"
 
-package "Controllers"{
-    class EmployeeController(){}
-    class EmployeeNotFoundAdvice()
-    class EmployeeNotFoundException()
+    package member {
+        class Member {}
+        interface MemberRepository<extends JARepository<Member, Long>>
+        class MemberController {
+            +all(): Member[]
+            +one(Long id): Member
+            +add(Member member): Member
+            +replace(Member member): Member
+            +remove(Long id): void
+        }
+        class MemberService {
+            -memberRepository: MemberRepository
+            -teamRepository: TeamRepository
+            +MemberService(MemberRepository memberRepository, TeamRepository teamRepository)
+            +getAll(): Member[]
+            +getById(Long id): Member
+            +create(Member member): Member
+            +modify(Long, Map<String, Object>): Member
+            +update(Long id, Member member): Member
+            +delete(Long id): void
+        }
+        class "MemberAdvice"
+        exception "MemberNotInTeam"
+        exception "MemberAlreadyInTeam"
 
-    class DepartmentController(){}
-    class DepartmentNotFoundAdvice(){}
-    class DepartmentNotFoundException(){}
+        "MemberController" --> "MemberService"
+        "MemberController" --> "Member"
+        "MemberService" --> "MemberRepository"
+        "MemberService" --> "Member"
+        "MemberService" --> "MemberNotInTeam"
+        "MemberService" --> "MemberAlreadyInTeam"
+        "MemberAdvice" --> "MemberNotInTeam"
+        "MemberAdvice" --> "MemberAlreadyInTeam"
+    }
+    "MemberService" --> team.TeamRepository
+    "MemberService" --> "Exceptions"
+
+    package memberRole {
+        class MemberRole {}
+        interface MemberRoleRepository<extends JARepository<MemberRole, Long>>
+        class MemberRoleController {
+            +all(): MemberRole[]
+            +one(Long id): MemberRole
+            +add(MemberRole memberRole): MemberRole
+            +replace(MemberRole memberRole): MemberRole
+            +remove(Long id): void
+        }
+        class MemberRoleService {
+            -memberRoleRepository: MemberRoleRepository
+            +MemberRoleService(MemberRoleRepository memberRoleRepository)
+            +getAll(): MemberRole[]
+            +getById(Long id): MemberRole
+            +create(MemberRole memberRole): MemberRole
+            +update(Long id, MemberRole memberRole): MemberRole
+            +delete(Long id): void
+        }
+
+        "MemberRoleController" --> "MemberRoleService"
+        "MemberRoleController" --> "MemberRole"
+        "MemberRoleService" --> "MemberRoleRepository"
+        "MemberRoleService" --> "MemberRole"
+    }
+
+    "MemberRoleService" --> "Exceptions"
+
+    package team {
+        class Team {}
+        interface TeamRepository<extends JARepository<Team, Long>>
+        class TeamController {
+            +all(): Team[]
+            +one(Long id): Team
+            +add(Team team): Team
+            +replace(Team team): Team
+            +remove(Long id): void
+        }
+        class TeamService {
+            -teamRepository: TeamRepository
+            +MemberRoleService(TeamRepository teamRepository)
+            +getAll(): Team[]
+            +getById(Long id): Team
+            +create(Team team): Team
+            +update(Long id, Team team): Team
+            +delete(Long id): void
+        }
+
+        "TeamController" --> "TeamService"
+        "TeamController" --> "Team"
+        "TeamService" --> "TeamRepository"
+        "TeamService" --> "Team"
+    }
+
+    "TeamService" --> "Exceptions"
+
+    package Exceptions {
+        exception "ResourceIDNotFound"
+        exception "ResourceDeleteNotFound"
+        class "ResourceNotFoundAdvice"
+
+        "ResourceNotFoundAdvice" --> "ResourceIDNotFound"
+        "ResourceNotFoundAdvice" --> "ResourceDeleteNotFound"
+    }
 }
-
-package "Entities"{
-    class Employee()
-    class Department()
-}
-
-package "Repositories"{
-    class EmployeeRepository()
-    class DepartmentRepository()
-    class LoadDatabase()
-}
-
-class PayrollApplication
-
-' Relations
-
-
-
 
 @enduml
