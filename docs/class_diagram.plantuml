@@ -13,6 +13,8 @@ package ch.etmles.payroll {
         class Member {}
         interface MemberRepository<extends JARepository<Member, Long>>
         class MemberController {
+            -memberService: MemberService
+            +MemberController(MemberService memberService)
             +all(): Member[]
             +one(Long id): Member
             +add(Member member): Member
@@ -33,7 +35,6 @@ package ch.etmles.payroll {
         class "MemberAdvice"
         exception "MemberNotInTeam"
         exception "MemberAlreadyInTeam"
-        exception "InvalidMemberTypeEnum"
 
         "MemberController" --> "MemberService"
         "MemberController" --> "Member"
@@ -43,9 +44,6 @@ package ch.etmles.payroll {
         "MemberService" --> "MemberAlreadyInTeam"
         "MemberAdvice" --> "MemberNotInTeam"
         "MemberAdvice" --> "MemberAlreadyInTeam"
-
-        "MemberAdvice" --> "InvalidMemberTypeEnum"
-        "Member" --> "InvalidMemberTypeEnum"
     }
     "MemberService" --> team.TeamRepository
     "MemberService" --> "Exceptions"
@@ -55,6 +53,8 @@ package ch.etmles.payroll {
 
         interface MemberRoleRepository<extends JARepository<MemberRole, Long>>
         class MemberRoleController {
+            -memberRoleService: MemberRoleService
+            +MemberRoleController(MemberRoleService memberRoleService)
             +all(): MemberRole[]
             +one(Long id): MemberRole
             +add(MemberRole memberRole): MemberRole
@@ -71,11 +71,6 @@ package ch.etmles.payroll {
             +delete(Long id): void
         }
 
-        class "MemberAdvice"
-        exception "InvalidMemberTypeEnum"
-        "MemberAdvice" --> "InvalidMemberTypeEnum"
-        "MemberRole" --> "InvalidMemberTypeEnum"
-
         "MemberRoleController" --> "MemberRoleService"
         "MemberRoleController" --> "MemberRole"
         "MemberRoleService" --> "MemberRoleRepository"
@@ -88,6 +83,8 @@ package ch.etmles.payroll {
         class Team {}
         interface TeamRepository<extends JARepository<Team, Long>>
         class TeamController {
+            -teamService: TeamService
+            +TeamController(TeamService teamService)
             +all(): Team[]
             +one(Long id): Team
             +add(Team team): Team
