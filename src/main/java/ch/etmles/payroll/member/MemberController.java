@@ -44,11 +44,11 @@ public class MemberController {
     /* curl sample :
     curl -i -X PATCH localhost:8080/members/1 ^
         -H "Content-type:application/json" ^
-        -d "{\"firstName\": \"Mikey\", \"type\": \"DEFENDER\"}"
+        -d "{\"firstName\": \"Mikey\", \"type\": \"DEFENDER\", \"team_id\": 1}"
     */
     @PatchMapping("/{id}")
-    Member modify(@RequestBody Map<String, Object> editedEmployee, @PathVariable Long id) {
-        return memberService.patch(id, editedEmployee);
+    Member modify(@RequestBody Map<String, Object> member, @PathVariable Long id) {
+        return memberService.patch(id, member);
     }
 
     /* curl sample :
@@ -57,8 +57,8 @@ public class MemberController {
         -d "{\"firstName\": \"Mario\", \"lastName\": \"Balotelli\", \"email\": \"mario.balotelli@genova-cfc.it\", \"type\": \"ATTACKER\", \"flocking\": 45}"
     */
     @PutMapping("/{id}")
-    Member replace(@RequestBody Member newEmployee, @PathVariable Long id) {
-        return memberService.update(id, newEmployee);
+    Member replace(@RequestBody Member member, @PathVariable Long id) {
+        return memberService.update(id, member);
     }
 
     /* curl sample :

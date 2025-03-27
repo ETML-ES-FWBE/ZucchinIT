@@ -1,6 +1,8 @@
 package ch.etmles.payroll.member;
 
 import ch.etmles.payroll.exceptions.ResourceIDNotFound;
+import ch.etmles.payroll.team.Team;
+import ch.etmles.payroll.team.TeamService;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -10,10 +12,13 @@ import java.util.Map;
 public class MemberService {
     public static final String RESOURCE_NAME = "member";
     private final MemberRepository memberRepository;
+    private final TeamService teamService;
 
-    public MemberService(MemberRepository memberRepository) {
+    public MemberService(MemberRepository memberRepository, TeamService teamService) {
         this.memberRepository = memberRepository;
+        this.teamService = teamService;
     }
+
 
     public List<Member> getAll() {
         return memberRepository.findAll();
@@ -51,8 +56,14 @@ public class MemberService {
                 case "flocking":
                     member.setFlocking(Integer.parseInt(value.toString()));
                 case "team_id":
-                    // @TODO implement
-                    break;
+                    if (value != null) {
+                        if (member.getTeam() != null) throw new MemberAlreadyInTeam(id);
+                        Team team = teamService.getById(Long.parseLong(value.toString()));
+                        member.setTeam(team);
+                    } else {
+                        if (member.getTeam() == null) throw new MemberNotInTeam(id);
+                        member.setTeam(null);
+                    }
             }
         });
 

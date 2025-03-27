@@ -1,10 +1,10 @@
 package ch.etmles.payroll.member;
 
+import ch.etmles.payroll.team.Team;
 import jakarta.persistence.*;
 
 import java.util.Objects;
 
-// @TODO Add team property
 @Entity
 public class Member {
     public enum MemberType {
@@ -28,6 +28,10 @@ public class Member {
     private MemberType type;
 
     private Integer flocking;
+
+    @ManyToOne
+    @JoinColumn(name = "team_id")
+    private Team team;
 
 
     public Member() {}
@@ -58,6 +62,9 @@ public class Member {
     public Integer getFlocking() { return flocking; }
     public void setFlocking(Integer flocking) { this.flocking = flocking; }
 
+    public Team getTeam() { return team; }
+    public void setTeam(Team team) { this.team = team; }
+
     @Override
     public boolean equals(Object o){
         if(this == o)
@@ -69,13 +76,12 @@ public class Member {
                 && Objects.equals(this.lastName, member.lastName)
                 && Objects.equals(this.email, member.email)
                 && Objects.equals(this.type, member.type)
-                && Objects.equals(this.flocking, member.flocking);
-        // @TODO Add team
+                && Objects.equals(this.flocking, member.flocking)
+                && Objects.equals(this.team, member.team);
     }
 
     @Override
     public int hashCode(){
-        return Objects.hash(this.id, this.firstName, this.lastName, this.email, this.type, this.flocking);
-        // @TODO Add team
+        return Objects.hash(this.id, this.firstName, this.lastName, this.email, this.type, this.flocking, this.team);
     }
 }

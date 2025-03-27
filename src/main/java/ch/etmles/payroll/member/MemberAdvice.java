@@ -12,14 +12,14 @@ public class MemberAdvice {
     @ResponseBody
     @ExceptionHandler(MemberAlreadyInTeam.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    String employeeAlreadyInADepartment(MemberAlreadyInTeam ex){
+    String memberAlreadyInATeam(MemberAlreadyInTeam ex){
         return ex.getMessage();
     }
 
     @ResponseBody
     @ExceptionHandler(MemberNotInTeam.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    String employeeNotInADepartment(MemberNotInTeam ex){
+    String memberNotInATeam(MemberNotInTeam ex){
         return ex.getMessage();
     }
 }
