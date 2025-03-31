@@ -27,4 +27,5 @@ entity Team {
 
 Member }o--|| Team : "belongs to"
 Member }o--|| MemberRole : "plays"
+Team }o--|| MemberRole : "has"
 @enduml

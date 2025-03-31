@@ -45,9 +45,8 @@ class Team {
 Member --> MemberType
 MemberRole --> PlayerRole
 
-Member "0,1" --> "1" Team : "belongs to"
-Team "0,N" --> "*" Member : "has"
+Member "0,1" --> "*" Team : "belongs to"
 
-Member "0,N" --> "1" MemberRole : "plays"
-MemberRole "0,N" --> "*" Member : "has"
+MemberRole "1,1" --> "*" Member : "plays"
+MemberRole "1,1" --> "*" Team : "has"
 @enduml

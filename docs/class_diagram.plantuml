@@ -5,12 +5,11 @@ skinparam classAttributeIconSize 0
 package ch.etmles.payroll {
     class "SpringApplication"
     class PayrollApplication {
-        +main(String[): void
+        +main(String[]): void
     }
     "PayrollApplication" --> "SpringApplication"
 
     package member {
-        class Member {}
         interface MemberRepository<extends JARepository<Member, Long>>
         class MemberController {
             -memberService: MemberService
@@ -23,8 +22,8 @@ package ch.etmles.payroll {
         }
         class MemberService {
             -memberRepository: MemberRepository
-            -teamRepository: TeamRepository
-            +MemberService(MemberRepository memberRepository, TeamRepository teamRepository)
+            -teamService: TeamService
+            +MemberService(MemberRepository memberRepository, TeamService teamService)
             +getAll(): Member[]
             +getById(Long id): Member
             +create(Member member): Member
@@ -37,50 +36,45 @@ package ch.etmles.payroll {
         exception "MemberAlreadyInTeam"
 
         "MemberController" --> "MemberService"
-        "MemberController" --> "Member"
         "MemberService" --> "MemberRepository"
-        "MemberService" --> "Member"
         "MemberService" --> "MemberNotInTeam"
         "MemberService" --> "MemberAlreadyInTeam"
         "MemberAdvice" --> "MemberNotInTeam"
         "MemberAdvice" --> "MemberAlreadyInTeam"
     }
-    "MemberService" --> team.TeamRepository
+    "MemberService" --> team.TeamService
     "MemberService" --> "Exceptions"
 
     package memberRole {
-        class MemberRole {}
-
         interface MemberRoleRepository<extends JARepository<MemberRole, Long>>
         class MemberRoleController {
             -memberRoleService: MemberRoleService
             +MemberRoleController(MemberRoleService memberRoleService)
             +all(): MemberRole[]
             +one(Long id): MemberRole
-            +add(MemberRole memberRole): MemberRole
-            +replace(MemberRole memberRole): MemberRole
+            +add(MemberRoleDTO memberRole): MemberRole
+            +replace(MemberRoleDTO memberRole): MemberRole
             +remove(Long id): void
         }
         class MemberRoleService {
             -memberRoleRepository: MemberRoleRepository
+            -memberService: MemberService
             +MemberRoleService(MemberRoleRepository memberRoleRepository)
             +getAll(): MemberRole[]
             +getById(Long id): MemberRole
-            +create(MemberRole memberRole): MemberRole
-            +update(Long id, MemberRole memberRole): MemberRole
+            +create(MemberRoleDTO memberRole): MemberRole
+            +update(Long id, MemberRoleDTO memberRole): MemberRole
             +delete(Long id): void
         }
 
         "MemberRoleController" --> "MemberRoleService"
-        "MemberRoleController" --> "MemberRole"
         "MemberRoleService" --> "MemberRoleRepository"
-        "MemberRoleService" --> "MemberRole"
+        "MemberRoleService" --> "MemberService"
     }
 
     "MemberRoleService" --> "Exceptions"
 
     package team {
-        class Team {}
         interface TeamRepository<extends JARepository<Team, Long>>
         class TeamController {
             -teamService: TeamService
@@ -102,9 +96,7 @@ package ch.etmles.payroll {
         }
 
         "TeamController" --> "TeamService"
-        "TeamController" --> "Team"
         "TeamService" --> "TeamRepository"
-        "TeamService" --> "Team"
     }
 
     "TeamService" --> "Exceptions"

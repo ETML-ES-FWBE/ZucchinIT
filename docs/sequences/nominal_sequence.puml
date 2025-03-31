@@ -4,7 +4,7 @@ actor Client
 participant MemberController
 participant MemberService
 participant MemberRepository
-entity MemberEntity
+entity Member
 database Database
 
 activate Client
@@ -15,8 +15,8 @@ MemberService -> MemberRepository : findAll(): Member[]
 activate MemberRepository
 MemberRepository -> Database : get all members from DB
 Database -> MemberRepository : return members data
-MemberRepository -> MemberEntity : members data to POJO
-MemberEntity -> MemberRepository : return Member[]
+MemberRepository -> Member : members data to POJO
+Member -> MemberRepository : return Member[]
 MemberRepository -> MemberService : return Member[]
 deactivate MemberRepository
 MemberService -> MemberController : return Member[]
