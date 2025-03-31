@@ -1,5 +1,6 @@
 package ch.etmles.payroll;
 
+import jakarta.annotation.security.PermitAll;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.event.EventListener;
 import org.springframework.http.ResponseEntity;
@@ -13,6 +14,7 @@ import java.util.HashMap;
 
 @Controller
 @RequestMapping("/uptime")
+@PermitAll
 public class UptimeController {
 
     private Instant uptime;
