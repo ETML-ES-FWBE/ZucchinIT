@@ -1,0 +1,12 @@
+services:
+  spring-boot:
+    container_name: spring-h2
+    build:
+      context: ../
+      dockerfile: ./deploy/Dockerfile
+    ports:
+      - "8080:8080"
+    healthcheck:
+      test: "curl --fail --silent localhost:8080/uptime || exit 1"
+      timeout: 5s
+      retries: 10
