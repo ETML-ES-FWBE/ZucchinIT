@@ -1,4 +1,4 @@
-package ch.etmles.payroll;
+package ch.etmles.payroll.extras;
 
 import jakarta.annotation.security.PermitAll;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
