@@ -1,38 +1,66 @@
-# Exam training
+## Introduction
+Ce projet à pour but de créer une API avec le framework Spring et de la déployer avec Docker.
+Cette API est conçue sur le thème du football et plus précisément sur la gestion des membres d'équipes et de leurs rôles.
 
-This repository has been created as a learning tool for getting to grips with spring boot.
+Le projet respecte les points suivants :
+* Intégration de l'authentification
+* Opérations CRUD sur les ressources
+* Bonnes pratiques et architecture Spring
+* Git flow et conventional commits
+* Déploiement Docker (API exposée uniquement)
 
-## First build
+## Continuer le développement
+Pour continuer le développement de ce projet, suivez les étapes suivantes :
 
-After cloning this repository, run this command:
-
+### 1. Se placer sur la branche `develop`
+```sh
+git checkout develop
 ```
-   mvn clean spring-boot:run
-```
-
-to retrieve the dependencies, compile and run the program for the first time.
-
-```
-  [...]
-  2024-04-09T21:27:27.338+02:00  INFO 21340 --- [payroll] [           main] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
-  2024-04-09T21:27:27.517+02:00  WARN 21340 --- [payroll] [           main] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be per
-  formed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
-  2024-04-09T21:27:27.752+02:00  INFO 21340 --- [payroll] [           main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port 8080 (http) with context path ''
-  2024-04-09T21:27:27.760+02:00  INFO 21340 --- [payroll] [           main] ch.etmles.payroll.PayrollApplication     : Started PayrollApplication in 2.972 seconds (process running for 3.247)
-  2024-04-09T21:27:27.802+02:00  INFO 21340 --- [payroll] [           main] c.e.payroll.Repositories.LoadDatabase    : Preloading Employee{id=1, name='Bilbo Baggins', role='burglar'}
-  2024-04-09T21:27:27.803+02:00  INFO 21340 --- [payroll] [           main] c.e.payroll.Repositories.LoadDatabase    : Preloading Employee{id=2, name='Frodo Baggins', role='thief'}
-  [...]
+Assurez-vous d'avoir les derniers changements :
+```sh
+git pull origin develop
 ```
 
-## Test using http requests
+### 2. Vérifier la version de Java et JDK (minimum version 17 pour java)
+Le projet nécessite une version spécifique de Java. Vérifiez votre version avec :
+```sh
+java -version
+```
 
-Got the file [project]\src\main\java\ch\etmles\payroll\Controllers\EmployeeController.java
+Si besoin, installez la version correcte de JDK et configurez-la dans IntelliJ IDEA.
 
-Before all routes, you will find a curl sample.
+### 3. Installer les dépendances Maven (version 4.0.0)
+Utilisez Maven pour télécharger toutes les dépendances nécessaires :
+```sh
+mvn clean install
+```
 
-## Backlog
+### 4. Ouvrir et exécuter le projet avec IntelliJ IDEA
+- Ouvrez le projet dans IntelliJ IDEA.
+- Configurez le SDK Java et Maven dans les paramètres du projet.
+- Exécutez l'application depuis la classe principale ou utilisez la commande Maven :
+```sh
+mvn spring-boot:run
+```
 
-Read the different issues that are present. They describe the branch to be used for the starting point and the expected result.
+## Déployer avec Docker
+Deux solutions de containerisation sont intégrées pour ce projet :
+* Container spring seul avec la BD h2
+* Container spring avec la BD MySQL et le reverse proxy Nginx.
 
-[Issues](https://github.com/ETML-ES-FWBE/exam-training/issues)
+### Container Spring + H2
+1. Accéder à `deploy`
+2. Lancer la commande `docker compose -f ./spring-h2-compose.yaml up`.\
+   *Utiliser `--build` pour forcer un nouveau build de l'image.*\
+   *Utiliser `-d` pour ne pas attacher la sortie à la console*
 
+### Container Spring + MySQL + Nginx
+**⚠️ Le reverse proxy accepte les requêtes sur l'url `http://{host}/api`**
+1. Accéder à `deploy`
+2. Configurer les variables d'environnements suivantes selon la config do container MySQL :
+   `SPRING.DATASOURCE.URL=jdbc:mysql://mysql:3306/<db-name>`
+   `SPRING.DATASOURCE.USERNAME=<user>`
+   `SPRING.DATASOURCE.PASSWORD=<mot de passe>`
+3. Lancer la commande `docker compose -f ./spring-nginx-mysql-compose.yaml up`.\
+   *Utiliser `--build` pour forcer un nouveau build de l'image.*\
+   *Utiliser `-d` pour ne pas attacher la sortie à la console*
