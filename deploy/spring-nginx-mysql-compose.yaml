@@ -21,6 +21,8 @@ services:
       - SPRING.DATASOURCE.URL=jdbc:mysql://mysql:3306/fc-zucchini
       - SPRING.DATASOURCE.USERNAME=zucchini
       - SPRING.DATASOURCE.PASSWORD=zucchini
+      - SPRING.SECURITY.USER.NAME=notAStrongUser
+      - SPRING.SECURITY.USER.PASSWORD=notAStrongPassword
     depends_on:
       mysql:
         condition: service_healthy
@@ -36,7 +38,7 @@ services:
       - MYSQL_DATABASE=fc-zucchini
       - MYSQL_USER=zucchini
       - MYSQL_PASSWORD=zucchini
-      - MYSQL_ROOT_PASSWORD=ImpYUVYzd2VqRWYnKXRga2hyWTVKZntz
+      - MYSQL_ROOT_PASSWORD=youShouldReplacePasswords
     healthcheck:
       test: [ "CMD", "mysqladmin" ,"ping", "-h", "localhost" ]
       timeout: 5s
