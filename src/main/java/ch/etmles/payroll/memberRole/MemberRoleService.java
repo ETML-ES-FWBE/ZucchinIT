@@ -2,7 +2,9 @@ package ch.etmles.payroll.memberRole;
 
 import ch.etmles.payroll.exceptions.ResourceIDNotFound;
 import ch.etmles.payroll.member.Member;
+import ch.etmles.payroll.member.MemberNotInTeam;
 import ch.etmles.payroll.member.MemberRepository;
+import ch.etmles.payroll.member.MemberService;
 import ch.etmles.payroll.team.Team;
 import ch.etmles.payroll.team.TeamRepository;
 import org.springframework.stereotype.Service;
@@ -14,13 +16,11 @@ public class MemberRoleService {
     public static final String RESOURCE_NAME = "memberRole";
 
     private final MemberRoleRepository memberRoleRepository;
-    private final MemberRepository memberRepository;
-    private final TeamRepository teamRepository;
+    private final MemberService memberService;
 
-    public MemberRoleService(MemberRoleRepository memberRoleRepository, MemberRepository memberRepository, TeamRepository teamRepository) {
+    public MemberRoleService(MemberRoleRepository memberRoleRepository, MemberService memberService) {
         this.memberRoleRepository = memberRoleRepository;
-        this.memberRepository = memberRepository;
-        this.teamRepository = teamRepository;
+        this.memberService = memberService;
     }
 
     public List<MemberRole> getAll() {
@@ -33,26 +33,22 @@ public class MemberRoleService {
     }
 
     public MemberRole create(MemberRoleDTO memberRoleDTO) {
-        Member member = memberRepository.findById(memberRoleDTO.getMemberId())
-                .orElseThrow(() -> new ResourceIDNotFound(memberRoleDTO.getMemberId(), "member"));
-        Team team = teamRepository.findById(memberRoleDTO.getTeamId())
-                .orElseThrow(() -> new ResourceIDNotFound(memberRoleDTO.getTeamId(), "team"));
+        Member member = memberService.getById(memberRoleDTO.getMemberId());
+        if (member.getTeam() == null) throw new MemberNotInTeam(member.getId());
 
-        MemberRole memberRole = new MemberRole(memberRoleDTO.getRole(), member, team);
+        MemberRole memberRole = new MemberRole(memberRoleDTO.getRole(), member, member.getTeam());
         return memberRoleRepository.save(memberRole);
     }
 
     public MemberRole update(Long id, MemberRoleDTO memberRoleDTO) {
         return memberRoleRepository.findById(id)
                 .map(existingMemberRole -> {
-                    Member member = memberRepository.findById(memberRoleDTO.getMemberId())
-                            .orElseThrow(() -> new ResourceIDNotFound(memberRoleDTO.getMemberId(), "member"));
-                    Team team = teamRepository.findById(memberRoleDTO.getTeamId())
-                            .orElseThrow(() -> new ResourceIDNotFound(memberRoleDTO.getTeamId(), "team"));
+                    Member member = memberService.getById(memberRoleDTO.getMemberId());
+                    if (member.getTeam() == null) throw new MemberNotInTeam(member.getId());
 
                     existingMemberRole.setRole(memberRoleDTO.getRole());
                     existingMemberRole.setMember(member);
-                    existingMemberRole.setTeam(team);
+                    existingMemberRole.setTeam(member.getTeam());
                     return memberRoleRepository.save(existingMemberRole);
                 })
                 .orElseThrow(() -> new ResourceIDNotFound(id, RESOURCE_NAME));

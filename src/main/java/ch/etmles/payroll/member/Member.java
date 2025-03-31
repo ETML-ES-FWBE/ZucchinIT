@@ -18,26 +18,18 @@ public class Member {
 
     @Id @GeneratedValue
     private Long id;
-
     private String firstName;
-
     private String lastName;
-
     @Column(unique = true)
     private String email;
-
     @Enumerated(EnumType.STRING)
     private MemberType type;
-
     private Integer flocking;
-
     @ManyToOne
     @JoinColumn(name = "team_id")
     private Team team;
-
-    @OneToMany
+    @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
     private List<MemberRole> roles;
-
 
     public Member() {}
 
@@ -48,7 +40,7 @@ public class Member {
         this.setEmail(email);
         this.setType(type);
         this.setFlocking(flocking);
-        this.setMemberRoleList(memberRoleList);
+        this.setRoles(memberRoleList);
     }
 
     public Long getId() { return id; }
@@ -72,9 +64,8 @@ public class Member {
     public Team getTeam() { return team; }
     public void setTeam(Team team) { this.team = team; }
 
-    public List<MemberRole> getMemberRoleList() { return roles; }
-
-    public void setMemberRoleList(List<MemberRole> memberRoleList) { this.roles = memberRoleList; }
+    public List<MemberRole> getRoles() { return roles; }
+    public void setRoles(List<MemberRole> memberRoleList) { this.roles = memberRoleList; }
 
     @Override
     public boolean equals(Object o){

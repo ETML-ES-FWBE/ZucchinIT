@@ -2,6 +2,7 @@ package ch.etmles.payroll.memberRole;
 
 import ch.etmles.payroll.member.Member;
 import ch.etmles.payroll.team.Team;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 import java.util.Objects;
@@ -19,16 +20,15 @@ public class MemberRole {
     @Id
     @GeneratedValue
     private Long id;
-
     @Enumerated(EnumType.STRING)
     private PlayerRole role;
-
     @ManyToOne
     @JoinColumn(name = "member_id")
+    @JsonIgnore
     private Member member;
-
     @ManyToOne
     @JoinColumn(name = "team_id")
+    @JsonIgnore
     private Team team;
 
     public  MemberRole(){}
@@ -41,7 +41,6 @@ public class MemberRole {
     public void setId(Long id) {
         this.id = id;
     }
-
     public Long getId() {
         return id;
     }
@@ -49,7 +48,6 @@ public class MemberRole {
     public PlayerRole getRole() {
         return role;
     }
-
     public void setRole(PlayerRole role) {
         this.role = role;
     }
@@ -57,7 +55,6 @@ public class MemberRole {
     public Member getMember() {
         return member;
     }
-
     public void setMember(Member member) {
         this.member = member;
     }
@@ -65,10 +62,12 @@ public class MemberRole {
     public Team getTeam() {
         return team;
     }
-
     public void setTeam(Team team) {
         this.team = team;
     }
+
+    public Long getMemberId() { return member.getId(); }
+    public Long getTeamId() { return team.getId(); }
 
     @Override
     public boolean equals(Object o){
