@@ -1,9 +1,9 @@
 package ch.etmles.payroll.team;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
+import ch.etmles.payroll.member.Member;
+import jakarta.persistence.*;
 
+import java.util.List;
 import java.util.Objects;
 
 @Entity
@@ -16,6 +16,10 @@ public class Team {
     private String city;
     private String zipCode;
     private String email;
+    @OneToMany(mappedBy = "team", cascade = CascadeType.ALL)
+    private List<Member> members;
+    @OneToMany(mappedBy = "team", cascade = CascadeType.ALL)
+    private List<Member> memberRoles;
 
     public Team() {}
     public Team(String name, String address, String city, String zipCode, String email) {
@@ -29,7 +33,6 @@ public class Team {
     public void setId(Long id) {
         this.id = id;
     }
-
     public Long getId() {
         return id;
     }
@@ -37,7 +40,6 @@ public class Team {
     public String getName() {
         return name;
     }
-
     public void setName(String name) {
         this.name = name;
     }
@@ -45,7 +47,6 @@ public class Team {
     public String getAddress() {
         return address;
     }
-
     public void setAddress(String address) {
         this.address = address;
     }
@@ -53,7 +54,6 @@ public class Team {
     public String getCity() {
         return city;
     }
-
     public void setCity(String city) {
         this.city = city;
     }
@@ -61,7 +61,6 @@ public class Team {
     public String getZipCode() {
         return zipCode;
     }
-
     public void setZipCode(String zipCode) {
         this.zipCode = zipCode;
     }
@@ -69,7 +68,6 @@ public class Team {
     public String getEmail() {
         return email;
     }
-
     public void setEmail(String email) {
         this.email = email;
     }

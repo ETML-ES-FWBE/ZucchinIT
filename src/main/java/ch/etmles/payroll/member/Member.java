@@ -1,8 +1,10 @@
 package ch.etmles.payroll.member;
 
+import ch.etmles.payroll.memberRole.MemberRole;
 import ch.etmles.payroll.team.Team;
 import jakarta.persistence.*;
 
+import java.util.List;
 import java.util.Objects;
 
 @Entity
@@ -16,32 +18,29 @@ public class Member {
 
     @Id @GeneratedValue
     private Long id;
-
     private String firstName;
-
     private String lastName;
-
     @Column(unique = true)
     private String email;
-
     @Enumerated(EnumType.STRING)
     private MemberType type;
-
     private Integer flocking;
-
     @ManyToOne
     @JoinColumn(name = "team_id")
     private Team team;
-
+    @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
+    private List<MemberRole> roles;
 
     public Member() {}
-    public Member(Long id, String firstName, String lastName, String email, MemberType type, Integer flocking) {
+
+    public Member(Long id, String firstName, String lastName, String email, MemberType type, Integer flocking, List<MemberRole> memberRoleList) {
         this.setId(id);
         this.setFirstName(firstName);
         this.setLastName(lastName);
         this.setEmail(email);
         this.setType(type);
         this.setFlocking(flocking);
+        this.setRoles(memberRoleList);
     }
 
     public Long getId() { return id; }
@@ -65,6 +64,9 @@ public class Member {
     public Team getTeam() { return team; }
     public void setTeam(Team team) { this.team = team; }
 
+    public List<MemberRole> getRoles() { return roles; }
+    public void setRoles(List<MemberRole> memberRoleList) { this.roles = memberRoleList; }
+
     @Override
     public boolean equals(Object o){
         if(this == o)
@@ -77,11 +79,12 @@ public class Member {
                 && Objects.equals(this.email, member.email)
                 && Objects.equals(this.type, member.type)
                 && Objects.equals(this.flocking, member.flocking)
-                && Objects.equals(this.team, member.team);
+                && Objects.equals(this.team, member.team)
+                && Objects.equals(this.roles, member.roles);
     }
 
     @Override
     public int hashCode(){
-        return Objects.hash(this.id, this.firstName, this.lastName, this.email, this.type, this.flocking, this.team);
+        return Objects.hash(this.id, this.firstName, this.lastName, this.email, this.type, this.flocking, this.team, this.roles);
     }
 }
