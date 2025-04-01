@@ -51,16 +51,18 @@ Deux solutions de containerisation sont intégrées pour ce projet :
 ### Container Spring + H2
 1. Accéder à `deploy`
 2. Lancer la commande `docker compose -f ./spring-h2-compose.yaml up`.\
-   *Utiliser `--build` pour forcer un nouveau build de l'image.*\
-   *Utiliser `-d` pour ne pas attacher la sortie à la console*
+*Utiliser `--build` pour forcer un nouveau build de l'image.*\
+*Utiliser `-d` pour ne pas attacher la sortie à la console*
 
 ### Container Spring + MySQL + Nginx
 **⚠️ Le reverse proxy accepte les requêtes sur l'url `http://{host}/api`**
 1. Accéder à `deploy`
-2. Configurer les variables d'environnements suivantes selon la config do container MySQL :
-   `SPRING.DATASOURCE.URL=jdbc:mysql://mysql:3306/<db-name>`
-   `SPRING.DATASOURCE.USERNAME=<user>`
-   `SPRING.DATASOURCE.PASSWORD=<mot de passe>`
+2. Configurer les variables d'environnements suivantes selon la config du container MySQL :
+`SPRING.DATASOURCE.URL=jdbc:mysql://mysql:3306/<db-name>`
+`SPRING.DATASOURCE.USERNAME=<user>`
+`SPRING.DATASOURCE.PASSWORD=<mot de passe>`
+`SPRING.SECURITY.USER.NAME=<user>`
+`SPRING.SECURITY.USER.PASSWORD=<mot de passe>`
 3. Lancer la commande `docker compose -f ./spring-nginx-mysql-compose.yaml up`.\
-   *Utiliser `--build` pour forcer un nouveau build de l'image.*\
-   *Utiliser `-d` pour ne pas attacher la sortie à la console*
+*Utiliser `--build` pour forcer un nouveau build de l'image.*\
+*Utiliser `-d` pour ne pas attacher la sortie à la console*
