@@ -2,13 +2,13 @@
 
 actor Client
 participant MemberController
-participant Member
+entity Member
 
 activate Client
 
-Client -> MemberController : [POST] /members { invalid enum value }
+Client -> MemberController : [POST] /members { invalid flocking value (ex: 100) }
 MemberController -> Member : parse data json to entity
-Member -> MemberController : Spring validation throws error
+Member -> MemberController : setFlocking() throws MemberInvalidFlocking
 MemberController -> Client : return 400 Bad Request
 
 @enduml

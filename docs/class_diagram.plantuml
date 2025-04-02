@@ -34,6 +34,7 @@ package ch.etmles.payroll {
         class "MemberAdvice"
         exception "MemberNotInTeam"
         exception "MemberAlreadyInTeam"
+        exception "MemberInvalidFlocking"
 
         "MemberController" --> "MemberService"
         "MemberService" --> "MemberRepository"
@@ -41,6 +42,7 @@ package ch.etmles.payroll {
         "MemberService" --> "MemberAlreadyInTeam"
         "MemberAdvice" --> "MemberNotInTeam"
         "MemberAdvice" --> "MemberAlreadyInTeam"
+        "MemberAdvice" --> "MemberInvalidFlocking"
     }
     "MemberService" --> team.TeamService
     "MemberService" --> "Exceptions"
