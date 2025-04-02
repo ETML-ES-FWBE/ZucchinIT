@@ -1,3 +1,21 @@
+# Bienvenue chez ZucchinIT 🥒 !
+
+<p align="left">
+  <img src="https://github.com/user-attachments/assets/594a770e-8e80-4a7d-83e8-0033d07793b7" 
+       alt="ZucchinIT Logo" width="28%" align="right">
+</p>
+
+**ZucchinIT, c'est quoi ?** Une startup ? Un projet ? Une secte de fans de courgettes ?  
+
+En vrai, on est un duo de motivés qui ont décidé de faire de l'IT avec une touche de verdure.  
+Notre mission : mener un projet de 10 semaines, après un petit échauffement en amont et un sprint final en aval  
+(histoire de bien transpirer avant la ligne d’arrivée).  
+
+Sur ce wiki, vous trouverez tout ce qu’il faut pour comprendre le petit projet qu’on nous a demandé de boucler en 2 semaines.  
+
+Installez-vous confortablement et embarquez dans l’univers **ZucchinIT** ! 🚀  
+<br>
+
 ## Introduction
 Ce projet à pour but de créer une API avec le framework Spring et de la déployer avec Docker.
 Cette API est conçue sur le thème du football et plus précisément sur la gestion des membres d'équipes et de leurs rôles.
@@ -51,16 +69,18 @@ Deux solutions de containerisation sont intégrées pour ce projet :
 ### Container Spring + H2
 1. Accéder à `deploy`
 2. Lancer la commande `docker compose -f ./spring-h2-compose.yaml up`.\
-   *Utiliser `--build` pour forcer un nouveau build de l'image.*\
-   *Utiliser `-d` pour ne pas attacher la sortie à la console*
+*Utiliser `--build` pour forcer un nouveau build de l'image.*\
+*Utiliser `-d` pour ne pas attacher la sortie à la console*
 
 ### Container Spring + MySQL + Nginx
 **⚠️ Le reverse proxy accepte les requêtes sur l'url `http://{host}/api`**
 1. Accéder à `deploy`
-2. Configurer les variables d'environnements suivantes selon la config do container MySQL :
-   `SPRING.DATASOURCE.URL=jdbc:mysql://mysql:3306/<db-name>`
-   `SPRING.DATASOURCE.USERNAME=<user>`
-   `SPRING.DATASOURCE.PASSWORD=<mot de passe>`
+2. Configurer les variables d'environnements suivantes selon la config du container MySQL :
+`SPRING.DATASOURCE.URL=jdbc:mysql://mysql:3306/<db-name>`
+`SPRING.DATASOURCE.USERNAME=<user>`
+`SPRING.DATASOURCE.PASSWORD=<mot de passe>`
+`SPRING.SECURITY.USER.NAME=<user>`
+`SPRING.SECURITY.USER.PASSWORD=<mot de passe>`
 3. Lancer la commande `docker compose -f ./spring-nginx-mysql-compose.yaml up`.\
-   *Utiliser `--build` pour forcer un nouveau build de l'image.*\
-   *Utiliser `-d` pour ne pas attacher la sortie à la console*
+*Utiliser `--build` pour forcer un nouveau build de l'image.*\
+*Utiliser `-d` pour ne pas attacher la sortie à la console*
