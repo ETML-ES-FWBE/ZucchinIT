@@ -22,4 +22,9 @@ public class MemberAdvice {
     String memberNotInATeam(MemberNotInTeam ex){
         return ex.getMessage();
     }
+
+    @ResponseBody
+    @ExceptionHandler(MemberInvalidFlocking.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    String memberInvalidFlocking(MemberInvalidFlocking ex) { return ex.getMessage(); }
 }

@@ -59,7 +59,11 @@ public class Member {
     public void setType(MemberType memberType) { this.type = memberType; }
 
     public Integer getFlocking() { return flocking; }
-    public void setFlocking(Integer flocking) { this.flocking = flocking; }
+    public void setFlocking(Integer flocking) {
+        if (flocking < 1 || flocking > 99) throw new MemberInvalidFlocking(flocking);
+
+        this.flocking = flocking;
+    }
 
     public Team getTeam() { return team; }
     public void setTeam(Team team) { this.team = team; }
